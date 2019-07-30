@@ -9,8 +9,8 @@ startTime = time.time()
 
 # Email/SMTP Info
 mailPort = 465
-mailPass = "TestingPy1"
-mailUser = "testingPythonServices"
+mailPass = "<Email Password>"
+mailUser = "<Email Username>"
 message = "Subject: sFTP Error\n\n"
 server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
 
