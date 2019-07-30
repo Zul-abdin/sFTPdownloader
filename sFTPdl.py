@@ -67,8 +67,10 @@ def sftpDl(mailMessage):
 
             if toDownload:
                 s = sftp.Connection(host=hostname, username=username, password=password, cnopts=cnopts)
-                s.get(remotepath, localpath)
-
+                try:
+                    s.get_r(remotepath, localpath)
+                except IOError as e:
+                    s.get(remotepath, localpath)
                 exWrite = open("exclusion.txt", "a")
                 exWrite.write("%s\r\n" % i)
                 exWrite.close()
