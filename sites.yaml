@@ -1,0 +1,21 @@
+connInfo:
+  rebexFirstFile:
+    remotepath: readme.txt
+    localpath: /Users/zain/Documents/Test/readme.txt
+    hostname: test.rebex.net
+    username: demo
+    password: password
+  rebexSecondFile:
+    remotepath: readme.txt
+    localpath: /Users/zain/Documents/Test/readme1.txt
+    hostname: test.rebex.net
+    username: demo
+    password: password
+#
+#  <sitename or ID>
+#    remotepath: <remotepath>
+#    localpath: <localpath>
+#    hostname: <hostname>
+#    username: <username>
+#    password: <password>
+#
