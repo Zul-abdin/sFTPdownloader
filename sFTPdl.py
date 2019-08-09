@@ -13,6 +13,7 @@ mailPass = "<Email Password>"
 mailUser = "<Email Username>"
 message = "Subject: sFTP Error\n\n"
 server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+server.login(mailUser, mailPass)
 
 # Create Log File and Exclusion File
 try:
@@ -49,43 +50,56 @@ def sftpDl(mailMessage):
             return mailMessage
 
     for i in doc["connInfo"]:
-        toDownload = True
-        remotepath = doc["connInfo"][i]["remotepath"]
-        localpath = doc["connInfo"][i]["localpath"]
+        toAct = True
         hostname = doc["connInfo"][i]["hostname"]
+        action = doc["connInfo"][i]["action"]
         username = doc["connInfo"][i]["username"]
-        password = doc["connInfo"][i]["password"]
+        passKey = doc["connInfo"][i]["passKey"]
+        source = doc["connInfo"][i]["source"]
+        target = doc["connInfo"][i]["target"]
 
         try:
             exRead = open("exclusion.txt", "r")
             f1 = exRead.readlines()
             for x in f1:
                 if x == (i + "\n"):
-                    toDownload = False
+                    toAct = False
                     break
             exRead.close()
 
-            if toDownload:
-                s = sftp.Connection(host=hostname, username=username, password=password, cnopts=cnopts)
+            if toAct:
                 try:
-                    s.get_r(remotepath, localpath)
-                except IOError as e:
-                    s.get(remotepath, localpath)
+                    s = sftp.Connection(host=hostname, username=username, password=passKey, cnopts=cnopts)
+                except Exception as e:
+                    s = sftp.Connection(host=hostname, username=username, private_key=passKey, cnopts=cnopts)
+                if action == "down":
+                    try:
+                        s.get_r(source, target)
+                    except Exception as e:
+                        s.get(source, target)
+                    logging.critical("Downloaded from " + source + " to " + target)
+                elif action == "up":
+                    try:
+                        s.put_r(source, target)
+                    except Exception as e:
+                        s.put(source, target)
+                    logging.critical("Uploaded from " + source + " to " + target)
+                else:
+                    logging.critical("Action of " + i + " is incorrect. Can only be up/down")
+                    mailMessage += "Action of " + i + " is incorrect. Can only be up/down"
                 exWrite = open("exclusion.txt", "a")
                 exWrite.write("%s\r\n" % i)
                 exWrite.close()
-                logging.critical("Downloaded from " + i)
                 s.close()
             else:
-                server.login(mailUser, mailPass)
 
-                mailMessage += i + " has already been downloaded.\n"
+                mailMessage += i + " has already been run.\n"
 
-                logging.critical(i + " has already been downloaded")
+                logging.critical(i + " has already been run")
 
         except Exception as e:
             logging.critical(e)
-            mailMessage += e
+            mailMessage += str(e)
             print(e)
             return mailMessage
 

@@ -1,21 +1,26 @@
 connInfo:
   rebexFirstFile:
-    remotepath: readme.txt
-    localpath: /Users/zain/Documents/Test/readme.txt
+# Downloads file 'readme.txt' from host/readme.txt to '/Users/zain/Documents/Test/readme.txt'
     hostname: test.rebex.net
+    action: down
     username: demo
-    password: password
+    passKey: password
+    source: readme.txt
+    target: /Users/zain/Documents/Test/readme.txt
+# Uploads file 'readme.txt' from '/Users/zain/Documents/Test/readme.txt' to host/readme.txt
   rebexSecondFile:
-    remotepath: readme.txt
-    localpath: /Users/zain/Documents/Test/readme1.txt
     hostname: test.rebex.net
+    action: up
     username: demo
-    password: password
+    passKey: password
+    source: /Users/zain/Documents/Test/readme.txt
+    target: readme.txt
 #
 #  <sitename or ID>
-#    remotepath: <remotepath>
-#    localpath: <localpath>
 #    hostname: <hostname>
+#    action: <down/up>
 #    username: <username>
-#    password: <password>
+#    passKey: <password or ssh key>
+#    source: <source path>
+#    target: <target path>
 #
