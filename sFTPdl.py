@@ -7,7 +7,7 @@ import time
 
 startTime = time.time()
 
-# Email/SMTP Info
+# Email/SMTP Info 
 mailPort = 465
 mailPass = "<Email Password>"
 mailUser = "<Email Username>"
